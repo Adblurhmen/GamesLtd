@@ -1,0 +1,41 @@
+﻿@page "/Games"
+@rendermode InteractiveServer
+@using GamsIRep.IRepositry
+@using global::Games.Domain.Entity
+
+
+<h3>Games</h3>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Taype</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in game)
+        {
+            <tr>
+                <td>@game.Type</td>
+              
+               @*  <td>
+                    <button class="btn btn-secondary" @onclick="() => ShowEditModal(book)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteBook(book)">Delete</button>
+                </td> *@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    [Inject] public IGameRep BookService { get; set; }
+    private Game games = new();
+    private IQueryable <Game> game;
+
+
+}

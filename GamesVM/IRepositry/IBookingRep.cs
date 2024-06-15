@@ -9,11 +9,11 @@ namespace GamsIRep.IRepositry
 {
     public interface IBookingRep
     {
-        public IQueryable<Booking> GetAll();
-        public Booking GetById(int id);
-        public IQueryable<Booking> Sarche(int id);
-        public void Creat( Booking model);
-        public void Update(Booking model);
-        public void Delete(Booking model);
+        public Task <List <Booking> >GetAll();
+        public Task <Booking> GetById(int id);
+        public Task<List<Booking>> Sarche(int id);
+        public Task Creat( Booking model);
+        public Task Update(Booking model);
+        public Task Delete(Booking model);
     }
 }

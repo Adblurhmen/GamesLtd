@@ -17,7 +17,7 @@ namespace GamesRep.Repositry
             this.db = db;
 
         }
-        public void Creat(Room model)
+        public async Task Creat(Room model)
         {
             var data = db.rooms.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
@@ -30,7 +30,7 @@ namespace GamesRep.Repositry
             }
         }
 
-        public void Delete(Room model)
+        public async Task Delete(Room model)
         {
             var data = db.rooms.FirstOrDefault(a => a.Id == model.Id);
             if (data==null)
@@ -40,25 +40,25 @@ namespace GamesRep.Repositry
             }
         }
 
-        public IQueryable<Room> GetAll()
+        public async Task<List<Room>> GetAll()
         {
             var data = db.rooms.Select(a => a);
-            return data;
+            return await (Task<List<Room>>)data;
         }
 
-        public Room GetById(int id)
+        public async Task <Room> GetById(int id)
         {
             var data = db.rooms.FirstOrDefault(a => a.Id== id);
             return data;
         }
 
-        public IQueryable<Room> Sarche(string Name, string type)
+        public async Task<List<Room>> Sarche(string Name, string type)
         {
             var data = db.rooms.Where(a => a.Game.Type.Contains(type)   ||  a.Venue.Name.Contains(Name));
-            return data;
+            return await (Task<List<Room>>)data;
         }
 
-        public void Update(Room model)
+        public async Task Update(Room model)
         {
             var data = db.rooms.FirstOrDefault(db => db.Id == model.Id);
             if (data==null)

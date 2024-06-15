@@ -9,11 +9,11 @@ namespace GamsIRep.IRepositry
 {
     public interface IRoomRep
     {
-        public IQueryable<Room> GetAll();
-        public Room GetById(int id);
-        public IQueryable<Room> Sarche(string Name, string type);
-        public void Creat(Room model);
-        public void Update(Room model);
-        public void Delete(Room model);
+        public Task<List<Room>> GetAll();
+        public Task<Room> GetById(int id);
+        public Task<List<Room>> Sarche(string Name, string type);
+        public Task Creat(Room model);
+        public Task Update(Room model);
+        public Task Delete(Room model);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Games.Contaxt.Database;
 using Games.Domain.Entity;
 using GamsIRep.IRepositry;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GamesRep.Repositry
             this.db = db;
 
         }
-        public void Creat(Booking model)
+        public async Task Creat(Booking model)
         {
             var data = db.bookings.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
@@ -30,7 +31,7 @@ namespace GamesRep.Repositry
             }
         }
 
-        public void Delete(Booking model)
+        public async Task Delete(Booking model)
         {
             var data = db.bookings.FirstOrDefault(a => a.Id == model.Id);
             if (data==null)
@@ -39,28 +40,29 @@ namespace GamesRep.Repositry
                 db.SaveChanges();
             }
         }
+        
 
-        public IQueryable<Booking> GetAll()
+        public async Task<List<Booking>>GetAll()
         {
-            var data = db.bookings.Select(a => a);
-            return data;
+
+            return [.. await db.bookings.ToListAsync()];
         }
 
-        public Booking GetById(int id)
+        public async Task<Booking?> GetById(int id)
         {
-            var data = db.bookings.FirstOrDefault(a => a.Id== id);
-            return data;
+            var data =  db.bookings.FirstOrDefault(a => a.Id== id);
+             return   data;
         }
 
         
 
-        public IQueryable<Booking> Sarche(int id)
+        public async Task<List<Booking>> Sarche(int id)
         {
             var data = db.bookings.Where(a => a.Id==id);
-            return data;
+            return await (Task<List<Booking>>)data;
         }
 
-        public void Update(Booking model)
+        public async Task Update(Booking model)
         {
             var data = db.bookings.FirstOrDefault(db => db.Id == model.Id);
             if (data==null)
@@ -72,5 +74,7 @@ namespace GamesRep.Repositry
 
             }
         }
+
+        
     }
 }

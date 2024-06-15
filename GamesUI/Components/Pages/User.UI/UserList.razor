@@ -1,0 +1,101 @@
+﻿@page "/Users"
+@rendermode InteractiveServer
+
+@using GamsIRep.IRepositry;
+@using System.Text.RegularExpressions
+@using global::Games.Domain.Entity
+
+<h3>User List</h3>
+
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New User</button>
+
+<br />
+
+
+<br />
+<br />
+
+
+@if (users == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Password</td>
+                    <td>@user.PhonNumber</td>
+                    <td></td>
+
+
+
+
+                    <td>
+                        <button class="btn btn-secondary" @onclick="() => ShowEditModal(user)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+ <AddEditUserModal @ref="addEditUserModal" OnSave="RefreshList" />
+ 
+@code {
+    [Inject] IUseRep UserService { get; set; }
+
+    private List<User> users;
+
+
+
+    private AddEditUserModal addEditUserModal;
+    private string searchItem;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUser();
+    }
+
+    private async Task LoadUser()
+    {
+
+        users = await UserService.GetAll();
+
+    }
+
+    private void ShowAddModal()
+    {
+        addEditUserModal.Show(new User());
+    }
+
+    private void ShowEditModal(User user)
+    {
+        addEditUserModal.Show(user);
+    }
+
+    private void DeleteUser(User user)
+    {
+        UserService.Delete(user);
+        LoadUser();
+    }
+
+    private void RefreshList()
+    {
+        LoadUser();
+    }
+}

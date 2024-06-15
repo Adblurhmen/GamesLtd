@@ -1,0 +1,30 @@
+﻿@* @using global::Games.Domain.Entity
+@* @typeparam TEntity *@
+@* <h3>SarchVenue</h3>
+@if (isVisible)
+{
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input @bind="searchItem" class="form-control" placeholder="Search. . ." style="max-width:250px" />
+        <button @onclick="OnSearchCliced" class="form-control" style="max-width:250px"> Search  </button>
+    </div>
+}
+
+
+
+
+@code {
+    [Parameter] 
+    public List<Venue> venuesh { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnSarch { get; set; }
+
+    private string searchItem;
+
+    private async Task OnSearchCliced()
+    {
+        await OnSarch.InvokeAsync(searchItem);
+    }
+}
+ *@ 

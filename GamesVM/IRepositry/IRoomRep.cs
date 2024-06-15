@@ -11,7 +11,7 @@ namespace GamsIRep.IRepositry
     {
         public Task<List<Room>> GetAll();
         public Task<Room> GetById(int id);
-        public Task<List<Room>> Sarche(string Name, string type);
+        public Task<List<Room>> Sarche(string Name);
         public Task Creat(Room model);
         public Task Update(Room model);
         public Task Delete(Room model);

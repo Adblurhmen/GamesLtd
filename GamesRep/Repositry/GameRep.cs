@@ -1,6 +1,7 @@
 ﻿using Games.Contaxt.Database;
 using Games.Domain.Entity;
 using GamsIRep.IRepositry;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,22 +23,22 @@ namespace GamesRep.Repositry
         public async Task Creat(Game model)
         {
 
-            var data = db.games.Where(a => a.Id == model.Id);
+            //var data = db.games.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
 
-            if (data==null)
-            {
+            //if (data==null)
+           // {
                 db.games.Add(model);
                 db.SaveChanges();
 
-            }
+           // }
 
         }
 
         public async Task Delete(Game model)
         {
             var data = db.games.FirstOrDefault(a => a.Id == model.Id);
-            if (data==null)
+            if (data!=null)
             {
                 db.games.Remove(model);
                 db.SaveChanges();
@@ -50,6 +51,24 @@ namespace GamesRep.Repositry
             var data = db.games.FirstOrDefault(a => a.Id==id);
             return  data;
 
+        }
+
+        public async Task<List<Game>> GetAll()
+        {
+            //var data =  db.venues.Select(a => a);
+            return [.. await db.games.ToListAsync()];
+        }
+
+
+        public async Task Update(Game model)
+        {
+            var data = db.games.FirstOrDefault(db => db.Id == model.Id);
+            if (data==null)
+            { 
+                data.Type=model.Type;
+                db.SaveChanges();
+
+            }
         }
     }
 }

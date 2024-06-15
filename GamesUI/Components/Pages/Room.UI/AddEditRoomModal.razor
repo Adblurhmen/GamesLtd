@@ -1,0 +1,80 @@
+﻿@using GamsIRep.IRepositry
+@using global::Games.Domain.Entity
+
+
+@if (isVisible)
+{
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((room.Id == 0) ? "Add room" : "Edit room")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">level</label>
+                        <input type="text" class="form-control" id="title" @bind="room.Level">
+                    </div>
+                    <div class="mb-3">
+                        <label for="isbn" class="form-label">State</label>
+                        <input type="checkbox" class="form-control" id="isbn" @bind="room.state">
+                    </div>
+                     <div class="mb-3">
+                <label for="numberOfPages" class="form-label">GameId</label>
+                        <input type="number" class="form-control" id="GameId" @bind="room.GameId">
+                </div>
+                <div class="mb-3">
+                        <label for="language" class="form-label">VenueId</label>
+                        <input type="text" class="form-control" id="VenueId" @bind="room.VenueId">
+                </div>
+                </div> 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                        <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+
+}
+
+@code {
+
+    [Parameter] public EventCallback OnSave { get; set; }
+
+    [Inject] public IRoomRep RoomService { get; set; }
+
+    private bool isVisible;
+
+    private Room room = new();
+
+    public void Show(Room room)
+    {
+        this.room = room;
+        isVisible = true;
+    }
+
+    private void Save()
+    {
+        if (room.Id == 0)
+        {
+            RoomService.Creat(room);
+        }
+        else
+        {
+            RoomService.Update(room);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}
+

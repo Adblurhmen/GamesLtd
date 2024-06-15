@@ -1,0 +1,116 @@
+﻿@page "/Booking"
+@rendermode InteractiveServer
+
+@using GamsIRep.IRepositry;
+@using System.Text.RegularExpressions
+@using global::Games.Domain.Entity
+
+<h3>Venues</h3>
+
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New booking</button>
+<div class="mb-3">
+    <label for="search" class="form-label">Search</label>
+    <input @bind="booking.UserId" class="form-control" placeholder="Search. . ." style="max-width:250px" id="search" />
+     <input @bind="booking.RoomId" class="form-control" placeholder="Search. . ." style="max-width:250px" id="search" />
+    <button @onclick="() => SarchVenue(booking)" class="form-control" style="max-width:250px"> Search  </button>
+</div>
+<br />
+
+
+<br />
+<br />
+
+
+@if (bookings == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NumberHours</th>
+                <th>Prise</th>
+                <th>UserId</th>
+                <th>RoomId</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in bookings)
+            {
+                <tr>
+                    <td>@booking.NumberHours</td>
+                    <td>@booking.Prise</td>
+                    <td>@booking.UserId</td>
+                    <td>@booking.RoomId</td>
+
+                    
+                    <td>
+                        <button class="btn btn-secondary" @onclick="() => ShowEditModal(booking)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteVenue(booking)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<AddEditBookingModal @ref="addEditBookingModal" OnSave="RefreshList" />
+  @* <div style="width:200px">
+    <SarchVenue @ref="sarchVenue" OnSearch="SarchVenue"></SarchVenue>
+</div>   *@
+@code {
+    [Inject] IBookingRep bookingService { get; set; }
+
+    private List<Booking> bookings;
+    private Booking booking=new();
+
+    private AddEditBookingModal addEditBookingModal;
+    private string searchItem;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBooking();
+    }
+
+    private async Task LoadBooking()
+    {
+
+        bookings = await bookingService.GetAll();
+
+    }
+
+    private async Task SarchVenue(Booking booking)
+    {
+        bookings = await bookingService.Sarche( booking);
+    }
+
+    private void ShowSearchModal ()
+    {
+        
+    }
+
+    private void ShowAddModal()
+    {
+        addEditBookingModal.Show(new Booking());
+    }
+
+    private void ShowEditModal(Booking booking)
+    {
+        addEditBookingModal.Show(booking);
+    }
+
+    private void DeleteVenue(Booking booking)
+    {
+        bookingService.Delete(booking);
+        LoadBooking();
+    }
+
+    private void RefreshList()
+    {
+        LoadBooking();
+    }
+}

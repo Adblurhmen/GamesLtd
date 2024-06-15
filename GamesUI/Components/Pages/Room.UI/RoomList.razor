@@ -1,0 +1,118 @@
+﻿@page "/Rooms"
+@rendermode InteractiveServer
+
+@using GamsIRep.IRepositry;
+@using System.Text.RegularExpressions
+@using global::Games.Domain.Entity
+
+<h3>Venues</h3>
+
+<button class="btn btn-primary" @onclick="ShowAddModal">Add New Room</button>
+<div class="mb-3">
+    <label for="search" class="form-label">Search</label>
+    <input @bind="searchItem"  class="form-control" placeholder="Search. . ." style="max-width:250px" id="search" />
+    <button @onclick="SarchVenue" class="form-control" style="max-width:250px"> Search  </button>
+</div>
+<br />
+
+
+<br />
+<br />
+
+
+@if (rooms == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in rooms)
+            {
+                <tr>
+                    <td>@room.Level</td>
+                    <td>@if (@room.state)
+                        {
+                            <span>Empty</span>
+                        }
+                    </td>
+                     <td>@room.Game.Type</td> 
+                    <td>@room.Venue.Name</td>  
+
+
+                    
+                    <td>
+                        <button class="btn btn-secondary" @onclick="() => ShowEditModal(room)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteRoom(room)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<AddEditRoomModal @ref="addEditRoomModal" OnSave="RefreshList" />
+  @* <div style="width:200px">
+    <SarchVenue @ref="sarchVenue" OnSearch="SarchVenue"></SarchVenue>
+</div>   *@
+@code {
+    [Inject] IRoomRep RoomService { get; set; }
+
+    private List<Room> rooms;
+
+    private AddEditRoomModal addEditRoomModal;
+    //public SarchVenue sarchVenue;
+    private string searchItem;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRooms();
+    }
+
+    private async Task LoadRooms()
+    {
+
+        rooms = await RoomService.GetAll();
+
+    }
+
+    private async Task SarchVenue()
+    {
+        rooms = await RoomService.Sarche(searchItem);
+    }
+
+    private void ShowSearchModal ()
+    {
+        
+    }
+
+    private void ShowAddModal()
+    {
+        addEditRoomModal.Show(new Room());
+    }
+
+    private void ShowEditModal(Room room)
+    {
+        addEditRoomModal.Show(room);
+    }
+
+    private void DeleteRoom(Room room)
+    {
+        RoomService.Delete(room);
+        LoadRooms();
+    }
+
+    private void RefreshList()
+    {
+        LoadRooms();
+    }
+}

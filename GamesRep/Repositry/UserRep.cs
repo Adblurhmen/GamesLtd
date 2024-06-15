@@ -1,6 +1,7 @@
 ﻿using Games.Contaxt.Database;
 using Games.Domain.Entity;
 using GamsIRep.IRepositry;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,10 @@ namespace GamesRep.Repositry
         }
         public async Task Creat(User model)
         {
-            var data = db.users.Where(a => a.Id == model.Id);
-            //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
+            //var data = db.users.Where(a => a.Id == model.Id);
+            var data = db.users.FirstOrDefault(a => a.Id == model.Id);
 
-            if (data==null)
+           if (data==null)
             {
                 db.users.Add(model);
                 db.SaveChanges();
@@ -42,8 +43,7 @@ namespace GamesRep.Repositry
 
         public async Task<List<User>> GetAll()
         {
-            var data = db.users.Select(a => a);
-            return await (Task<List<User>>)data;
+            return [.. await db.users.ToListAsync()];
         }
 
         public async Task<User> GetById(int id)

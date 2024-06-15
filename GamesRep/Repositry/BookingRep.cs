@@ -20,15 +20,15 @@ namespace GamesRep.Repositry
         }
         public async Task Creat(Booking model)
         {
-            var data = db.bookings.Where(a => a.Id == model.Id);
+           // var data = db.bookings.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
 
-            if (data==null)
-            {
+           // if (data==null)
+            //{
                 db.bookings.Add(model);
-                db.SaveChanges();
+               await  db.SaveChangesAsync();
 
-            }
+           // }
         }
 
         public async Task Delete(Booking model)
@@ -37,7 +37,7 @@ namespace GamesRep.Repositry
             if (data==null)
             {
                 db.bookings.Remove(model);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
         
@@ -45,21 +45,21 @@ namespace GamesRep.Repositry
         public async Task<List<Booking>>GetAll()
         {
 
-            return [.. await db.bookings.ToListAsync()];
+            return [.. await db.bookings.Include(x => x.Rooms).Include(a => a.Users).ToListAsync()];
         }
 
         public async Task<Booking?> GetById(int id)
         {
-            var data =  db.bookings.FirstOrDefault(a => a.Id== id);
+            var data =  await db.bookings.FirstOrDefaultAsync(a => a.Id== id);
              return   data;
         }
 
         
 
-        public async Task<List<Booking>> Sarche(int id)
+        public async Task<List<Booking>> Sarche(Booking booking)
         {
-            var data = db.bookings.Where(a => a.Id==id);
-            return await (Task<List<Booking>>)data;
+            var data = await db.bookings.Where(x => x.UserId==booking.UserId ||x.RoomId==booking.RoomId).ToListAsync();
+            return [.. data];
         }
 
         public async Task Update(Booking model)
@@ -70,7 +70,7 @@ namespace GamesRep.Repositry
                 data.NumberHours=model.NumberHours;
                 data.Prise=model.Prise;
                 
-                db.SaveChanges();
+               await  db.SaveChangesAsync();
 
             }
         }

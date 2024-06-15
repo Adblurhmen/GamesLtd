@@ -16,6 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\GamesRep\GamesRep.csproj" />
     <ProjectReference Include="..\GamesVM\GamsIRep.csproj" />
+	<ProjectReference Include="..\Games.Domain\Games.Domain.csproj" />
+	<ProjectReference Include="..\Games.Contaxt\Games.Contaxt.csproj" />
   </ItemGroup>
 
 </Project>

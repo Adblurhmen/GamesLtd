@@ -11,7 +11,7 @@ namespace GamsIRep.IRepositry
     {
         public Task <List <Booking> >GetAll();
         public Task <Booking> GetById(int id);
-        public Task<List<Booking>> Sarche(int id);
+        public Task<List<Booking>> Sarche(Booking booking);
         public Task Creat( Booking model);
         public Task Update(Booking model);
         public Task Delete(Booking model);

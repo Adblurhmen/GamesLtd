@@ -12,5 +12,7 @@ namespace GamsIRep.IRepositry
         public Task<Game> GetById(int id);
         public Task Creat(Game model);
         public Task Delete(Game model);
+        public  Task<List<Game>> GetAll();
+        public  Task Update(Game model);
     }
 }

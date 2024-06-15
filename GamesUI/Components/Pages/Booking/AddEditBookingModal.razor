@@ -1,0 +1,79 @@
+﻿@using GamsIRep.IRepositry
+@using global::Games.Domain.Entity
+
+
+@if (isVisible)
+{
+    <div class="modal show" tabindex="-1" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((booking.Id == 0) ? "Add booking" : "Edit booking")</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="Cancel"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">NumberHours</label>
+                        <input type="text" class="form-control" id="title" @bind="booking.NumberHours">
+                    </div>
+                    <div class="mb-3">
+                        <label for="isbn" class="form-label">Prise</label>
+                        <input type="checkbox" class="form-control" id="isbn" @bind="booking.Prise">
+                    </div>
+                    <div class="mb-3">
+                        <label for="numberOfPages" class="form-label">GameId</label>
+                        <input type="number" class="form-control" id="GameId" @bind="booking.UserId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="language" class="form-label">VenueId</label>
+                        <input type="text" class="form-control" id="VenueId" @bind="booking.RoomId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+@code {
+
+    [Parameter] public EventCallback OnSave { get; set; }
+
+    [Inject] public IBookingRep Bookigervice { get; set; }
+
+    private bool isVisible;
+
+    private Booking booking = new();
+
+    public void Show(Booking booking)
+    {
+        this.booking = booking;
+        isVisible = true;
+    }
+
+    private void Save()
+    {
+        if (booking.Id == 0)
+        {
+            Bookigervice.Creat(booking);
+        }
+        else
+        {
+            Bookigervice.Update(booking);
+        }
+
+        isVisible = false;
+        OnSave.InvokeAsync();
+    }
+
+    private void Cancel()
+    {
+        isVisible = false;
+    }
+}

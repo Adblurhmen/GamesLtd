@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesRep", "GamesRep\GamesR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamsIRep", "GamesVM\GamsIRep.csproj", "{6B07C360-A390-4880-ABF6-3B5C5B4DB510}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.Test", "Game.Test\Game.Test.csproj", "{1FF3E0F9-73B9-44C9-B7A3-CCC282C487CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6B07C360-A390-4880-ABF6-3B5C5B4DB510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B07C360-A390-4880-ABF6-3B5C5B4DB510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B07C360-A390-4880-ABF6-3B5C5B4DB510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF3E0F9-73B9-44C9-B7A3-CCC282C487CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF3E0F9-73B9-44C9-B7A3-CCC282C487CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF3E0F9-73B9-44C9-B7A3-CCC282C487CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF3E0F9-73B9-44C9-B7A3-CCC282C487CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

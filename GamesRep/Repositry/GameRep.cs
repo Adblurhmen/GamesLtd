@@ -1,6 +1,8 @@
 ﻿using Games.Contaxt.Database;
 using Games.Domain.Entity;
 using GamsIRep.IRepositry;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,31 +15,35 @@ namespace GamesRep.Repositry
     {
 
         private readonly GamesContext db;
+
+
         public GameRep(GamesContext db)
         {
             this.db = db;
 
         }
 
-        public void Creat(Game model)
+        
+
+        public async Task Creat(Game model)
         {
 
-            var data = db.games.Where(a => a.Id == model.Id);
+            //var data = db.games.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
 
-            if (data==null)
-            {
+            //if (data==null)
+           // {
                 db.games.Add(model);
                 db.SaveChanges();
 
-            }
+           // }
 
         }
 
-        public void Delete(Game model)
+        public async Task Delete(Game model)
         {
             var data = db.games.FirstOrDefault(a => a.Id == model.Id);
-            if (data==null)
+            if (data!=null)
             {
                 db.games.Remove(model);
                 db.SaveChanges();
@@ -45,11 +51,14 @@ namespace GamesRep.Repositry
 
         }
 
-        public Game GetById(int id)
+        public async Task <Game> GetById(int id)
         {
             var data = db.games.FirstOrDefault(a => a.Id==id);
             return data;
 
+            }
         }
+
+       
     }
 }

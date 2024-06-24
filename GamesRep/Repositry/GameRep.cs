@@ -23,20 +23,31 @@ namespace GamesRep.Repositry
 
         }
 
-        
+        public async Task Update(Game model)
+        {
+            var data = db.games.FirstOrDefault(db => db.Id == model.Id);
+            if (data==null)
+            {
+                data.Type=model.Type;
+                db.SaveChanges();
 
-        public async Task Creat(Game model)
+            }
+        }
+
+
+
+            public async Task Creat(Game model)
         {
 
             //var data = db.games.Where(a => a.Id == model.Id);
             //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
 
             //if (data==null)
-           // {
-                db.games.Add(model);
-                db.SaveChanges();
+            // {
+            db.games.Add(model);
+            db.SaveChanges();
 
-           // }
+            // }
 
         }
 
@@ -51,14 +62,25 @@ namespace GamesRep.Repositry
 
         }
 
-        public async Task <Game> GetById(int id)
+        public async Task<List<Game>> GetAll()
+        {
+            //var data =  db.venues.Select(a => a);
+            return [.. await db.games.ToListAsync()];
+        }
+
+
+
+
+        public async Task<Game> GetById(int id)
         {
             var data = db.games.FirstOrDefault(a => a.Id==id);
             return data;
 
-            }
+
         }
 
+
+    }
        
     }
-}
+

@@ -9,10 +9,10 @@ namespace GamsIRep.IRepositry
 {
     public interface IUseRep
     {
-        public IQueryable<User> GetAll();
-        public User GetById(int id);
-        public void Creat(User model);
-        public void Update(User model);
-        public void Delete(User model);
+        public Task<List<User>> GetAll();
+        public Task<User> GetById(int id);
+        public Task Creat(User model);
+        public Task Update(User model);
+        public Task Delete(User model);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Games.Contaxt.Database;
 using Games.Domain.Entity;
 using GamsIRep.IRepositry;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace GamesRep.Repositry
             this.db = db;
 
         }
-        public void Creat(User model)
+        public async Task Creat(User model)
         {
-            var data = db.users.Where(a => a.Id == model.Id);
-            //var data = db.Rooms.FirstOrDefault(a => a.Id == model.Id);
+            //var data = db.users.Where(a => a.Id == model.Id);
+            var data = db.users.FirstOrDefault(a => a.Id == model.Id);
 
-            if (data==null)
+           if (data==null)
             {
                 db.users.Add(model);
                 db.SaveChanges();
@@ -30,7 +31,7 @@ namespace GamesRep.Repositry
             }
         }
 
-        public void Delete(User model)
+        public async Task Delete(User model)
         {
             var data = db.users.FirstOrDefault(a => a.Id == model.Id);
             if (data==null)
@@ -40,19 +41,18 @@ namespace GamesRep.Repositry
             }
         }
 
-        public IQueryable<User> GetAll()
+        public async Task<List<User>> GetAll()
         {
-            var data = db.users.Select(a => a);
-            return data;
+            return [.. await db.users.ToListAsync()];
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
             var data = db.users.FirstOrDefault(a => a.Id== id);
             return data;
         }
 
-        public void Update(User model)
+        public async Task Update(User model)
         {
             var data = db.users.FirstOrDefault(db => db.Id == model.Id);
             if (data==null)

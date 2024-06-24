@@ -9,12 +9,12 @@ namespace GamsIRep.IRepositry
 {
     public interface IVenueRep
     {
-        public IQueryable<Venue> GetAll();
-        public Venue GetById(int id);
-        public IQueryable<Venue> Sarche(string Name);
-        public void Creat(Venue model);
-        public void Update(Venue model);
-        public void Delete(Venue model);
+        public Task<List<Venue>> GetAll();
+        public Task<Venue> GetById(int id);
+        public Task<List<Venue>> Sarche(string Name);
+        public Task Creat(Venue model);
+        public Task Update(Venue model);
+        public Task Delete(Venue model);
        
     }
 }
